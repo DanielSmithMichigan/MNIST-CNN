@@ -40,3 +40,17 @@ TEST_F(NormalizationTest, ZeroOneZeroOne) {
 	normalization->feedForward();
 	ASSERT_NEAR(normalization->getNode(0, 0), -0.707, 0.001);
 }
+
+TEST_F(NormalizationTest, MaxEntrySize) {
+	Layer *input = new Layer(1, 1);
+	input->nodes.resize(1);
+	Normalization *normalization = new Normalization(1, 1, input);
+	normalization->__MAX_ENTRY_SIZE = 1;
+	input->setNode(0, 0, 0);
+	normalization->feedForward();
+	input->setNode(0, 0, 1);
+	normalization->feedForward();
+	input->setNode(0, 0, 0);
+	normalization->feedForward();
+	ASSERT_EQ(normalization->getNode(0, 0), 0);
+}

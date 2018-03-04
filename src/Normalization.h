@@ -8,7 +8,6 @@ using namespace std;
 
 class Normalization : public Layer {
 	private:
-		int __MAX_ENTRY_SIZE = 50;
 		vector<list<float>> inputs;
 	protected:
 	public:
@@ -19,4 +18,5 @@ class Normalization : public Layer {
 		void addToEntry(list<float> &entry, float val);
 		float getMean(list<float> &entry);
 		float getVariance(list<float> &entry, float mean);
+		int __MAX_ENTRY_SIZE = 50;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include "Constants.h"
 #include "Volume.h"
 using namespace std;
 
@@ -11,10 +12,9 @@ class Filter{
 		int outputWidth;
 		int outputHeight;
 		int outputDepth;
-		int inputIndex;
 	protected:
 	public:
-		Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolume, int inputIndex);
+		Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolume);
 		~Filter();
 		Volume *errVsInput;
 		Volume *errVsOutput;

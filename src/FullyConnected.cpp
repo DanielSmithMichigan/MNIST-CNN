@@ -38,7 +38,7 @@ void FullyConnected::feedBackward() {
 			for (int y = 0; y < inputVolume->height; y++) {
 				for (int x = 0; x < inputVolume->width; x++) {
 					errVsInput->add(x, y, z, errVsOutput->get(i, 0, 0) * weights->get(x, y, z, i));
-					weights->add(x, y, z, i, errVsOutput->get(i, 0, 0) * inputVolume->get(x, y, z) * -0.5);
+					weights->add(x, y, z, i, errVsOutput->get(i, 0, 0) * inputVolume->get(x, y, z) * -__LEARNING_RATE);
 				}
 			}
 		}

@@ -1,15 +1,14 @@
 #include "Filter.h"
 
-Filter::Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolume, int inputIndex) :
+Filter::Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolume) :
 	filterWidth(filterWidth),
 	filterHeight(filterHeight),
 	stride(stride),
-	inputVolume(inputVolume),
-	inputIndex(inputIndex) {
+	inputVolume(inputVolume) {
 	outputWidth = ceil((float)(inputVolume->width - filterWidth + 1) / (float)stride);
 	outputHeight = ceil((float)(inputVolume->height - filterHeight + 1) / (float)stride);
 	outputVolume = new Volume(outputWidth, outputHeight, 1);
-	errVsOutput= new Volume(outputWidth, outputHeight, outputDepth);
+	errVsOutput = new Volume(outputWidth, outputHeight, 1);
 	weights = new Volume(filterWidth, filterHeight, inputVolume->depth);
 	weights->initialize(1);
 }
@@ -41,7 +40,7 @@ void Filter::feedBackward() {
 			for(int outputX = 0; outputX < outputVolume->width; outputX++) {
 				for (int filterY = 0; filterY < filterHeight; filterY++) {
 					for (int filterX = 0; filterX < filterWidth; filterX++) {
-						errVsInput->add(outputX * stride + filterX, outputY * stride + filterY, inputZ, weights->get(filterX, filterY, inputZ) * outputVolume->get(outputX, outputY, 0));
+						errVsInput->add(outputX * stride + filterX, outputY * stride + filterY, inputZ, weights->get(filterX, filterY, inputZ) * errVsOutput->get(outputX, outputY, 0));
 					}
 				}
 			}
@@ -52,7 +51,7 @@ void Filter::feedBackward() {
 			for(int outputX = 0; outputX < outputVolume->width; outputX++) {
 				for (int filterY = 0; filterY < filterHeight; filterY++) {
 					for (int filterX = 0; filterX < filterWidth; filterX++) {
-						weights->add(filterX, filterY, inputZ, errVsOutput->get(outputX, outputY, 0) * inputVolume->get(outputX * stride + filterX, outputY * stride + filterY, inputZ) * -0.5);
+						weights->add(filterX, filterY, inputZ, errVsOutput->get(outputX, outputY, 0) * inputVolume->get(outputX * stride + filterX, outputY * stride + filterY, inputZ) * -__LEARNING_RATE);
 					}
 				}
 			}

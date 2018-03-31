@@ -11,6 +11,8 @@ class Relu {
 		~Relu();
 		Volume *outputVolume;
 		Volume *inputVolume;
+		Volume *errVsInput;
+		Volume *errVsOutput;
 		void feedForward();
 		void feedBackward();
 };

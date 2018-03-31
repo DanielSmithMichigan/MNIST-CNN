@@ -1,0 +1,1 @@
+#define __LEARNING_RATE 0.5

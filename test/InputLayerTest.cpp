@@ -17,6 +17,6 @@ class OneByOneTrainingImagesMock : public PixelStream {
 TEST_F(InputLayerTest, OneByOne) {
 	InputLayer *inputLayer = new InputLayer(1, 1);
 	inputLayer->pixelStream = new OneByOneTrainingImagesMock();
-	inputLayer->feedImage();
-	ASSERT_EQ(inputLayer->getNode(0, 0), 1);
+	inputLayer->feedForward();
+	ASSERT_EQ(inputLayer->outputVolume->get(0, 0, 0), 1);
 }

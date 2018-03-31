@@ -3,16 +3,16 @@
 #include <vector>
 #include <stdint.h>
 #include "TrainingImages.h"
-#include "Layer.h"
+#include "Volume.h"
 using namespace std;
 
-class InputLayer : public Layer {
+class InputLayer{
 	private:
 	protected:
 	public:
+		Volume *outputVolume;
 		PixelStream *pixelStream;
-		InputLayer(int width, int height);
+		InputLayer(int outputWidth, int outputHeight);
 		~InputLayer();
-		void initialize(float value);
-		void feedImage();
+		void feedForward();
 };

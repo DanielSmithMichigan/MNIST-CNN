@@ -1,17 +1,26 @@
 #pragma once
 #include <cmath>
-#include "WeightedLayer.h"
+#include "Volume.h"
 using namespace std;
 
-class Filter : public WeightedLayer {
+class Filter{
 	private:
 		int stride;
-		int outputHeight;
+		int filterWidth;
+		int filterHeight;
 		int outputWidth;
+		int outputHeight;
+		int outputDepth;
+		int inputIndex;
 	protected:
 	public:
-		Filter(int width, int height, int stride, Layer* inputLayer);
+		Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolume, int inputIndex);
 		~Filter();
-		Layer *inputLayer;
+		Volume *errVsInput;
+		Volume *errVsOutput;
+		Volume *outputVolume;
+		Volume *inputVolume;
+		Volume *weights;
 		void feedForward();
+		void feedBackward();
 };

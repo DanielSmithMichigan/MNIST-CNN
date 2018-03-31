@@ -1,12 +1,17 @@
 #include "Filter.h"
 
-Filter::Filter(int width, int height, int stride, Layer *inputLayer)
-	: inputLayer(inputLayer),
+Filter::Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolume, int inputIndex) :
+	filterWidth(filterWidth),
+	filterHeight(filterHeight),
 	stride(stride),
-	WeightedLayer(width, height) {
-	outputWidth = ceil((float)(inputLayer->width - width + 1) / (float)stride);
-	outputHeight = ceil((float)(inputLayer->height - height + 1) / (float)stride);
-	nodes.resize(outputWidth * outputHeight);
+	inputVolume(inputVolume),
+	inputIndex(inputIndex) {
+	outputWidth = ceil((float)(inputVolume->width - filterWidth + 1) / (float)stride);
+	outputHeight = ceil((float)(inputVolume->height - filterHeight + 1) / (float)stride);
+	outputVolume = new Volume(outputWidth, outputHeight, 1);
+	errVsOutput= new Volume(outputWidth, outputHeight, outputDepth);
+	weights = new Volume(filterWidth, filterHeight, inputVolume->depth);
+	weights->initialize(1);
 }
 
 Filter::~Filter() {
@@ -14,13 +19,41 @@ Filter::~Filter() {
 }
 
 void Filter::feedForward() {
-	for (int outputY = 0; outputY < outputHeight; outputY++) {
-		for(int outputX = 0; outputX < outputWidth; outputX++) {
-			int nodeOffset = outputY * outputWidth + outputX;
-			nodes[nodeOffset] = 0;
-			for (int filterY = 0; filterY < height; filterY++) {
-				for (int filterX = 0; filterX < width; filterX++) {
-					nodes[nodeOffset] += getWeight(filterX, filterY) * inputLayer->getNode(outputX * stride + filterX, outputY * stride + filterY);
+	outputVolume->initialize();
+	for (int inputZ = 0; inputZ < inputVolume->depth; inputZ++) {
+		for (int outputY = 0; outputY < outputVolume->height; outputY++) {
+			for(int outputX = 0; outputX < outputVolume->width; outputX++) {
+				for (int filterY = 0; filterY < filterHeight; filterY++) {
+					for (int filterX = 0; filterX < filterWidth; filterX++) {
+						float value = weights->get(filterX, filterY, inputZ) * inputVolume->get(outputX * stride + filterX, outputY * stride + filterY, inputZ);
+						outputVolume->add(outputX, outputY, 0, value);
+					}
+				}
+			}
+		}
+	}
+}
+
+void Filter::feedBackward() {
+	errVsInput->initialize();
+	for (int inputZ = 0; inputZ < inputVolume->depth; inputZ++) {
+		for (int outputY = 0; outputY < outputVolume->height; outputY++) {
+			for(int outputX = 0; outputX < outputVolume->width; outputX++) {
+				for (int filterY = 0; filterY < filterHeight; filterY++) {
+					for (int filterX = 0; filterX < filterWidth; filterX++) {
+						errVsInput->add(outputX * stride + filterX, outputY * stride + filterY, inputZ, weights->get(filterX, filterY, inputZ) * outputVolume->get(outputX, outputY, 0));
+					}
+				}
+			}
+		}
+	}
+	for (int inputZ = 0; inputZ < inputVolume->depth; inputZ++) {
+		for (int outputY = 0; outputY < outputVolume->height; outputY++) {
+			for(int outputX = 0; outputX < outputVolume->width; outputX++) {
+				for (int filterY = 0; filterY < filterHeight; filterY++) {
+					for (int filterX = 0; filterX < filterWidth; filterX++) {
+						weights->add(filterX, filterY, inputZ, errVsOutput->get(outputX, outputY, 0) * inputVolume->get(outputX * stride + filterX, outputY * stride + filterY, inputZ) * -0.5);
+					}
 				}
 			}
 		}

@@ -1,25 +1,17 @@
 #include "InputLayer.h"
 
-InputLayer::InputLayer(int width, int height) : Layer(width, height) {
-	nodes.resize(width * height);
+InputLayer::InputLayer(int outputWidth, int outputHeight) {
+	outputVolume = new Volume(outputWidth, outputHeight, 1);
 }
 
 InputLayer::~InputLayer() {
 
 }
 
-void InputLayer::initialize(float value) {
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			setNode(x, y, value);
-		}
-	}
-}
-
-void InputLayer::feedImage() {
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			setNode(x, y, pixelStream->get());
+void InputLayer::feedForward() {
+	for (int y = 0; y < outputVolume->height; y++) {
+		for (int x = 0; x < outputVolume->width; x++) {
+			outputVolume->set(x, y, 0, pixelStream->get());
 		}
 	}
 }

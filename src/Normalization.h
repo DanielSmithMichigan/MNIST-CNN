@@ -2,21 +2,22 @@
 #include <list>
 #include <vector>
 #include <cmath>
-#include "Layer.h"
+#include "Volume.h"
 
 using namespace std;
 
-class Normalization : public Layer {
+class Normalization {
 	private:
-		vector<list<float>> inputs;
-	protected:
-	public:
-		Normalization(int width, int height, Layer *inputLayer);
-		~Normalization();
-		Layer *inputLayer;
-		void feedForward();
+		int windowSize;
+		vector<vector<vector<list <float>>>> entries;
 		void addToEntry(list<float> &entry, float val);
 		float getMean(list<float> &entry);
 		float getVariance(list<float> &entry, float mean);
-		int __MAX_ENTRY_SIZE = 50;
+	protected:
+	public:
+		Normalization(Volume *inputVolume, int windowSize);
+		~Normalization();
+		Volume *inputVolume;
+		Volume *outputVolume;
+		void feedForward();
 };

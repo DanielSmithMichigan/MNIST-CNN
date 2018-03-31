@@ -1,7 +1,7 @@
 #include "Relu.h"
 
-Relu::Relu(int width, int height, Layer *inputLayer) : inputLayer(inputLayer), Layer(width, height) {
-	nodes.resize(width * height);
+Relu::Relu(Volume* inputVolume) : inputVolume(inputVolume) {
+	outputVolume = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 }
 
 Relu::~Relu() {
@@ -9,13 +9,29 @@ Relu::~Relu() {
 }
 
 void Relu::feedForward() {
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < height; x++) {
-			float val = inputLayer->getNode(x, y);
-			if (val < 0) {
-				val = 0;
+	for (int z = 0; z < inputVolume->depth; z++) {
+		for (int y = 0; y < inputVolume->width; y++) {
+			for (int x = 0; x < inputVolume->height; x++) {
+				float val = inputVolume->get(x, y, z);
+				if (val < 0) {
+					val *= .01;
+				}
+				outputVolume->set(x, y, z, val);
 			}
-			setNode(x, y, val);
+		}
+	}
+}
+
+void Relu::feedBackward() {
+	for (int z = 0; z < inputVolume->depth; z++) {
+		for (int y = 0; y < inputVolume->width; y++) {
+			for (int x = 0; x < inputVolume->height; x++) {
+				float val = inputVolume->get(x, y, z);
+				if (val < 0) {
+					val = 0;
+				}
+				outputVolume->set(x, y, z, val);
+			}
 		}
 	}
 }

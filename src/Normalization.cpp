@@ -1,8 +1,16 @@
 #include "Normalization.h"
 
-Normalization::Normalization(int width, int height, Layer *inputLayer) : inputLayer(inputLayer), Layer(width, height) {
-	nodes.resize(width * height);
-	inputs.resize(width * height);
+Normalization::Normalization(Volume *inputVolume, int windowSize) :
+	inputVolume(inputVolume),
+	windowSize(windowSize) {
+	outputVolume = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
+	entries.resize(inputVolume->width);
+	for (int x = 0; x < inputVolume->width; x++) {
+		entries[x].resize(inputVolume->height);
+		for (int y = 0; y < inputVolume->height; y++) {
+			entries[x][y].resize(inputVolume->depth);
+		}
+	}
 }
 
 Normalization::~Normalization() {
@@ -10,22 +18,24 @@ Normalization::~Normalization() {
 }
 
 void Normalization::feedForward() {
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			float val = inputLayer->getNode(x, y);
-			list<float> &entry = inputs[y * width + x];
-			addToEntry(entry, val);
-			float mean = getMean(entry);
-			float variance = getVariance(entry, mean);
-			float nodeOutput = (val - mean) / sqrt(variance + __FLT_EPSILON__);
-			setNode(x, y, nodeOutput);
+	for (int z = 0; z < inputVolume->depth; z++) {
+		for (int y = 0; y < inputVolume->height; y++) {
+			for (int x = 0; x < inputVolume->width; x++) {
+				float val = inputVolume->get(x, y, z);
+				list<float> &entry = entries[x][y][z];
+				addToEntry(entry, val);
+				float mean = getMean(entry);
+				float variance = getVariance(entry, mean);
+				float nodeOutput = (val - mean) / sqrt(variance + __FLT_EPSILON__);
+				outputVolume->set(x, y, z, nodeOutput);
+			}
 		}
 	}
 }
 
 void Normalization::addToEntry(list<float> &entry, float val) {
 	entry.push_back(val);
-	if (entry.size() > __MAX_ENTRY_SIZE) {
+	if (entry.size() > windowSize) {
 		entry.pop_front();
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
+#include "Constants.h"
 #include "Volume.h"
 #include <cmath>
-#define eConstant 2.71828182
 
 using namespace std;
 

@@ -1,6 +1,7 @@
 #include "src/TrainingImages.h"
 #include "src/TrainingLabels.h"
 #include "src/InputLayer.h"
+#include "src/Filter.h"
 #include <iostream>
 #include <string>
 // #include <opencv2/core/core.hpp>

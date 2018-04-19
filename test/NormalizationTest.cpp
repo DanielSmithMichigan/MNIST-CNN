@@ -60,6 +60,6 @@ TEST_F(NormalizationTest, SecondWrongInput) {
 	normalization->errVsOutput->set(0,0,0,2);
 	normalization->feedBackward();
 	ASSERT_EQ(normalization->beta->get(0, 0, 0), -2);
-	ASSERT_FLOAT_EQ(normalization->gamma->get(0, 0, 0), -1.5 * 2);
-	ASSERT_FLOAT_EQ(normalization->errVsInput->get(0, 0, 0), 5);
+	ASSERT_FLOAT_EQ(normalization->gamma->get(0, 0, 0), (2 * -1) * -.5 + 1);
+	ASSERT_FLOAT_EQ(normalization->errVsInput->get(0, 0, 0), normalization->gamma->get(0, 0, 0) * .5 * (2 * 2 - (-2 * -1) - 3));
 }

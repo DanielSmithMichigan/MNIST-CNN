@@ -10,7 +10,7 @@ Filter::Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolum
 	outputVolume = new Volume(outputWidth, outputHeight, 1);
 	errVsOutput = new Volume(outputWidth, outputHeight, 1);
 	weights = new Volume(filterWidth, filterHeight, inputVolume->depth);
-	weights->initialize(1);
+	weights->initRandom();
 }
 
 Filter::~Filter() {

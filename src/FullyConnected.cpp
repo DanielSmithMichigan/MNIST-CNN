@@ -6,7 +6,7 @@ FullyConnected::FullyConnected(int nodeCount, Volume *inputVolume) :
 	outputVolume = new Volume(nodeCount, 1, 1);
 	errVsOutput = new Volume(nodeCount, 1, 1);
 	weights = new Volume4d(inputVolume->width, inputVolume->height, inputVolume->depth, nodeCount);
-	weights->initialize();
+	weights->initRandom();
 	biases.resize(nodeCount);
 	for (int i = 0; i > nodeCount; i++) {
 		biases[i] = 0;

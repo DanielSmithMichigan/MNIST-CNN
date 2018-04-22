@@ -45,3 +45,15 @@ void Volume4d::initialize(float initValue) {
 		}
 	}
 }
+
+void Volume4d::initRandom() {
+	for (int i = 0; i < numVolumes; i++) {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				for (int z = 0; z < depth; z++) {
+					values[x][y][z][i] = (float)rand() / 32768;
+				}
+			}
+		}
+	}
+}

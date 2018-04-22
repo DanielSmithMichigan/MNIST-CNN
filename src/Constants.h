@@ -1,2 +1,2 @@
-#define __LEARNING_RATE 0.5
+#define __LEARNING_RATE 0.01
 #define eConstant 2.71828182

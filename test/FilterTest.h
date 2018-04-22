@@ -1,4 +1,5 @@
 #include "../src/Filter.h"
+#include "../src/Padding.h"
 #include "../src/InputLayer.h"
 #include "../src/PixelStream.h"
 #include "gtest/gtest.h"

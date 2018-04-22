@@ -39,3 +39,13 @@ void Volume::initialize(float initValue) {
 		}
 	}
 }
+
+void Volume::initRandom() {
+	for (int x = 0; x < width; x++) {
+		for (int y = 0; y < height; y++) {
+			for (int z = 0; z < depth; z++) {
+				values[x][y][z] = (float)rand() / 32768;
+			}
+		}
+	}
+}

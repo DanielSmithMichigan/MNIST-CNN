@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class TrainingImages : PixelStream {
+class TrainingImages : public PixelStream {
 	private:
 		ifstream dataStream;
 	protected:

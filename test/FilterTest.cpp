@@ -15,6 +15,25 @@ class OneByOneTrainingImagesMock : public PixelStream {
 };
 
 
+TEST_F(FilterTest, FilterWithPadding) {
+	Volume *inputVolume = new Volume(3, 3, 1);
+	Padding *padding = new Padding(1, inputVolume);
+	Filter *filter = new Filter(3, 3, 1, padding->outputVolume);
+	filter->weights->initialize(1);
+	inputVolume->initialize(2);
+	padding->feedForward();
+	filter->feedForward();
+	ASSERT_EQ(filter->outputVolume->get(0, 0, 0), 8);
+	ASSERT_EQ(filter->outputVolume->get(1, 0, 0), 12);
+	ASSERT_EQ(filter->outputVolume->get(2, 0, 0), 8);
+	ASSERT_EQ(filter->outputVolume->get(0, 1, 0), 12);
+	ASSERT_EQ(filter->outputVolume->get(1, 1, 0), 18);
+	ASSERT_EQ(filter->outputVolume->get(2, 1, 0), 12);
+	ASSERT_EQ(filter->outputVolume->get(0, 2, 0), 8);
+	ASSERT_EQ(filter->outputVolume->get(1, 2, 0), 12);
+	ASSERT_EQ(filter->outputVolume->get(2, 2, 0), 8);
+}
+
 TEST_F(FilterTest, WeightOfOne) {
 	InputLayer *inputLayer = new InputLayer(1, 1);
 	inputLayer->pixelStream = new OneByOneTrainingImagesMock();

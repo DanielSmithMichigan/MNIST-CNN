@@ -31,12 +31,11 @@ int main(int argc, char** argv)
 	TrainingLabels::instance->initialize();
 	InputLayer *inputLayer = new InputLayer(__WIDTH, __HEIGHT);
 	inputLayer->pixelStream = tImages;
-	Volume *inputVolume = new Volume(28, 28, 1);
 	Volume *fakeErrVsOutput = new Volume(28, 28, 1);
 	vector<Volume *> hiddenVolumes;
 	vector<Filter *> filters;
 	for (int i = 0; i < __NUM_FILTERS; i++) {
-		Filter *f0 = new Filter(3, 3, 1, inputVolume);
+		Filter *f0 = new Filter(3, 3, 1, inputLayer->outputVolume);
 		f0->errVsInput = fakeErrVsOutput;
 		filters.push_back(f0);
 		hiddenVolumes.push_back(f0->outputVolume);

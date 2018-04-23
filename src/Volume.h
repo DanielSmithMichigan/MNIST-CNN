@@ -3,6 +3,8 @@
 #include <vector>
 #include <stdint.h>
 #include <cstdlib>
+#include <random>
+#include <chrono>
 using namespace std;
 
 class Volume {
@@ -19,5 +21,5 @@ class Volume {
 		void set(int x, int y, int z, float value);
 		void add(int x, int y, int z, float value);
 		void initialize(float initValue = 0);
-		void initRandom();
+		void initRandom(float moan, float stdDev);
 };

@@ -1,8 +1,8 @@
 #include "Normalization.h"
 
-Normalization::Normalization(Volume *inputVolume, int windowSize) :
-	inputVolume(inputVolume),
-	windowSize(windowSize) {
+Normalization::Normalization(Volume *priorLayer, int windowSize) :
+	windowSize(windowSize),
+	Layer(priorLayer) {
 	outputVolume = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 	errVsOutput = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 	gamma = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);

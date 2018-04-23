@@ -1,6 +1,7 @@
 #include "InputLayer.h"
 
-InputLayer::InputLayer(int outputWidth, int outputHeight) {
+InputLayer::InputLayer(int outputWidth, int outputHeight) :
+    Layer() {
 	outputVolume = new Volume(outputWidth, outputHeight, 1);
 }
 
@@ -14,4 +15,8 @@ void InputLayer::feedForward() {
 			outputVolume->set(x, y, 0, pixelStream->get());
 		}
 	}
+}
+
+void InputLayer::feedBackward() {
+    
 }

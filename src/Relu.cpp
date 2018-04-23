@@ -1,6 +1,6 @@
 #include "Relu.h"
 
-Relu::Relu(Volume* inputVolume) : inputVolume(inputVolume) {
+Relu::Relu(Layer *priorLayer) : Layer(priorLayer) {
 	outputVolume = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 	errVsOutput = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 }

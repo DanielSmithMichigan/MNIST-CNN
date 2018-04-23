@@ -1,10 +1,8 @@
 #pragma once
-#include <cmath>
-#include "Constants.h"
-#include "Volume.h"
+#include "Layer.h"
 using namespace std;
 
-class Filter{
+class Filter : public Layer {
 	private:
 		int stride;
 		int filterWidth;
@@ -14,12 +12,8 @@ class Filter{
 		int outputDepth;
 	protected:
 	public:
-		Filter(int filterWidth, int filterHeight, int stride, Volume *inputVolume);
+		Filter(int filterWidth, int filterHeight, int stride, Layer *priorLayer);
 		~Filter();
-		Volume *errVsInput;
-		Volume *errVsOutput;
-		Volume *outputVolume;
-		Volume *inputVolume;
 		Volume *weights;
 		void feedForward();
 		void feedBackward();

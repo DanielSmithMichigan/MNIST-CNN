@@ -1,7 +1,7 @@
 #include "Sigmoid.h"
 
-Sigmoid::Sigmoid(Volume* inputVolume) : 
-	inputVolume(inputVolume) {
+Sigmoid::Sigmoid(Layer *priorLayer) : 
+	Layer(priorLayer) {
 	outputVolume = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 	errVsOutput = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 }

@@ -1,20 +1,15 @@
 #pragma once
-#include "Constants.h"
-#include "Volume.h"
+#include "Layer.h"
 #include <cmath>
 
 using namespace std;
 
-class Sigmoid {
+class Sigmoid : public Layer{
 	private:
 	protected:
 	public:
-		Sigmoid(Volume *inputVolume);
+		Sigmoid(Layer *priorLayer);
 		~Sigmoid();
-		Volume *outputVolume;
-		Volume *errVsOutput;
-		Volume *inputVolume;
-		Volume *errVsInput;
 		void feedForward();
 		void feedBackward();
 };

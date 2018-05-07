@@ -3,6 +3,10 @@
 #include <vector>
 #include <stdint.h>
 #include <cstdlib>
+#include <random>
+#include <chrono>
+#include <functional>
+#include "RandomSeed.h"
 using namespace std;
 
 class Volume {
@@ -11,6 +15,7 @@ class Volume {
 	protected:
 	public:
 		Volume(int width, int height, int depth);
+		Volume(vector<vector<vector<float>>> values);
 		~Volume();
 		int width;
 		int height;
@@ -19,5 +24,5 @@ class Volume {
 		void set(int x, int y, int z, float value);
 		void add(int x, int y, int z, float value);
 		void initialize(float initValue = 0);
-		void initRandom();
+		void initRandom(float mean, float stdDev);
 };

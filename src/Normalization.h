@@ -2,13 +2,12 @@
 #include <list>
 #include <vector>
 #include <cmath>
-#include "Volume.h"
+#include "Layer.h"
 #include "RollingVolume.h"
-#include "Constants.h"
 
 using namespace std;
 
-class Normalization {
+class Normalization : public Layer {
 	private:
 		int windowSize;
 		RollingVolume *values;
@@ -21,12 +20,8 @@ class Normalization {
 		float getVariance(list<float> &entry, float mean);
 	protected:
 	public:
-		Normalization(Volume *inputVolume, int windowSize);
+		Normalization(Layer *priorLayer, int windowSize);
 		~Normalization();
-		Volume *inputVolume;
-		Volume *outputVolume;
-		Volume *errVsOutput;
-		Volume *errVsInput;
 		Volume *gamma;
 		Volume *beta;
 		void feedForward();

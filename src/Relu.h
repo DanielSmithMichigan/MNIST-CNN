@@ -1,18 +1,14 @@
 #pragma once
-#include "Volume.h"
+#include "Layer.h"
 
 using namespace std;
 
-class Relu {
+class Relu : public Layer {
 	private:
 	protected:
 	public:
-		Relu(Volume *inputVolume);
+		Relu(Layer *priorLayer);
 		~Relu();
-		Volume *outputVolume;
-		Volume *inputVolume;
-		Volume *errVsInput;
-		Volume *errVsOutput;
 		void feedForward();
 		void feedBackward();
 };

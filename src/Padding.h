@@ -1,20 +1,14 @@
 #pragma once
-#include <cmath>
-#include "Constants.h"
-#include "Volume.h"
+#include "Layer.h"
 using namespace std;
 
-class Padding{
+class Padding : public Layer {
 	private:
 		int padding;
 	protected:
 	public:
-		Padding(int padding, Volume *inputVolume);
+		Padding(int padding, Layer *priorLayer);
 		~Padding();
-		Volume *errVsInput;
-		Volume *errVsOutput;
-		Volume *outputVolume;
-		Volume *inputVolume;
 		void feedForward();
 		void feedBackward();
 };

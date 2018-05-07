@@ -1,31 +1,38 @@
-#include "Sigmoid.h"
+#include "Softmax.h"
 
-Sigmoid::Sigmoid(Layer *priorLayer) : 
+Softmax::Softmax(Layer *priorLayer) : 
 	Layer(priorLayer) {
 	outputVolume = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 	errVsOutput = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
 }
 
-Sigmoid::~Sigmoid() {
+Softmax::~Softmax() {
 
 }
 
-void Sigmoid::feedForward() {
+void Softmax::feedForward() {
+	float sum = 0;
 	for (int x = 0; x < inputVolume->width; x++) {
 		for (int y = 0; y < inputVolume->height; y++) {
 			for (int z = 0; z < inputVolume->depth; z++) {
-				outputVolume->set(x, y, z, 1 / (1 + pow(eConstant, -inputVolume->get(x, y, z))));
+				sum += pow(eConstant, inputVolume->get(x, y, z));
+			}
+		}
+	}
+	for (int x = 0; x < inputVolume->width; x++) {
+		for (int y = 0; y < inputVolume->height; y++) {
+			for (int z = 0; z < inputVolume->depth; z++) {
+				outputVolume->set(x, y, z, pow(eConstant, inputVolume->get(x, y, z)) / sum);
 			}
 		}
 	}
 }
 
-void Sigmoid::feedBackward() {
+void Softmax::feedBackward() {
 	for (int x = 0; x < inputVolume->width; x++) {
 		for (int y = 0; y < inputVolume->height; y++) {
 			for (int z = 0; z < inputVolume->depth; z++) {
-				float outputVal = outputVolume->get(x, y, z);
-				errVsInput->set(x, y, z, errVsOutput->get(x, y, z) * outputVal * (1 - outputVal));
+				errVsInput->set(x, y, z, errVsOutput->get(x, y, z));
 			}
 		}
 	}

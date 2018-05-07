@@ -1,23 +1,16 @@
-#pragma once
-#include <cmath>
-#include "Constants.h"
+#include "Layer.h"
 #include "Volume4d.h"
-#include "Volume.h"
 using namespace std;
 
-class FullyConnected{
+class FullyConnected : public Layer{
 	private:
 		int nodeCount;
 	protected:
 	public:
-		FullyConnected(int nodeCount, Volume *inputVolume);
+		FullyConnected(int nodeCount, Layer *priorLayer);
 		~FullyConnected();
 		void feedForward();
 		void feedBackward();
 		Volume4d *weights;
-		vector<float> biases;
-		Volume *outputVolume;
-		Volume *errVsOutput;
-		Volume *inputVolume;
-		Volume *errVsInput;
+		Volume *biases;
 };

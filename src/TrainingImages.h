@@ -12,5 +12,6 @@ class TrainingImages : public PixelStream {
 		TrainingImages();
 		~TrainingImages();
 		void initialize();
+		void reset();
 		uint8_t get();
 };

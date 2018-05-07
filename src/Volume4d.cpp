@@ -46,12 +46,13 @@ void Volume4d::initialize(float initValue) {
 	}
 }
 
-void Volume4d::initRandom() {
+void Volume4d::initRandom(float mean, float stdDev) {
+	uniform_real_distribution<float> distribution(-stdDev, stdDev);
 	for (int i = 0; i < numVolumes; i++) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				for (int z = 0; z < depth; z++) {
-					values[x][y][z][i] = (float)rand() / 32768;
+					values[x][y][z][i] = distribution(RandomSeed::generator);
 				}
 			}
 		}

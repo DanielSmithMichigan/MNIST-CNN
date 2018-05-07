@@ -4,12 +4,12 @@
 
 using namespace std;
 
-class Sigmoid : public Layer{
+class Softmax : public Layer{
 	private:
 	protected:
 	public:
-		Sigmoid(Layer *priorLayer);
-		~Sigmoid();
+		Softmax(Layer *priorLayer);
+		~Softmax();
 		void feedForward();
 		void feedBackward();
 };

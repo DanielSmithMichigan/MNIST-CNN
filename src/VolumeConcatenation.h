@@ -1,21 +1,18 @@
 #pragma once
-#include "Volume.h"
-#include <vector>
-#include <cmath>
+#include "Layer.h"
 
 using namespace std;
 
-class VolumeConcatenation {
+class VolumeConcatenation : public Layer {
 	private:
 		int outputWidth;
 		int outputHeight;
 		int outputDepth;
+		vector <Layer *> priorLayers;
 	protected:
 	public:
-		VolumeConcatenation(vector<Volume*> inputVolume);
+		VolumeConcatenation(vector<Layer*> priorLayers);
 		~VolumeConcatenation();
-		Volume *outputVolume;
-		Volume *errVsOutput;
 		vector<Volume*> inputVolumes;
 		vector<Volume*> errVsInputs;
 		void feedForward();

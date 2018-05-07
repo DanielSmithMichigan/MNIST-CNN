@@ -1,8 +1,8 @@
 #include "Padding.h"
 
-Padding::Padding(int padding, Volume *inputVolume) :
+Padding::Padding(int padding, Layer *priorLayer) :
 	padding(padding),
-	inputVolume(inputVolume)
+	Layer(priorLayer)
 {
 	outputVolume = new Volume(inputVolume->width + padding + padding, inputVolume->height + padding + padding, 1);
 	outputVolume->initialize(0);

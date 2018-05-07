@@ -46,14 +46,13 @@ void Volume4d::initialize(float initValue) {
 	}
 }
 
-void Volume4d::initRandom(float moan, float stdDev) {
-	auto seed = chrono::high_resolution_clock::now().time_since_epoch().count();
-	auto real_rand = std::bind(std::uniform_real_distribution<double>(0,1), mt19937(seed));
+void Volume4d::initRandom(float mean, float stdDev) {
+	uniform_real_distribution<float> distribution(-stdDev, stdDev);
 	for (int i = 0; i < numVolumes; i++) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				for (int z = 0; z < depth; z++) {
-					values[x][y][z][i] = real_rand();
+					values[x][y][z][i] = distribution(RandomSeed::generator);
 				}
 			}
 		}

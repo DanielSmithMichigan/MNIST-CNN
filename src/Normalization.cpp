@@ -1,6 +1,6 @@
 #include "Normalization.h"
 
-Normalization::Normalization(Volume *priorLayer, int windowSize) :
+Normalization::Normalization(Layer *priorLayer, int windowSize) :
 	windowSize(windowSize),
 	Layer(priorLayer) {
 	outputVolume = new Volume(inputVolume->width, inputVolume->height, inputVolume->depth);
@@ -53,9 +53,9 @@ void Normalization::feedBackward() {
 				float variance = values->getVariance(x, y, z, mean);
 				float rootVar = sqrt(variance + __FLT_EPSILON__);
 
+				float dx = gamma->get(x, y, z) / values->getSize() / rootVar * (values->getSize() * dy - dGamma * xhat - dBeta);
 				beta->add(x, y, z, -__LEARNING_RATE * dBeta);
 				gamma->add(x, y, z, -__LEARNING_RATE * dGamma);
-				float dx = gamma->get(x, y, z) / values->getSize() / rootVar * (values->getSize() * dy - dGamma * xhat - dBeta);
 				errVsInput->set(x, y, z, dx);
 			}
 		}

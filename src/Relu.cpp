@@ -11,8 +11,8 @@ Relu::~Relu() {
 
 void Relu::feedForward() {
 	for (int z = 0; z < inputVolume->depth; z++) {
-		for (int y = 0; y < inputVolume->width; y++) {
-			for (int x = 0; x < inputVolume->height; x++) {
+		for (int y = 0; y < inputVolume->height; y++) {
+			for (int x = 0; x < inputVolume->width; x++) {
 				float val = inputVolume->get(x, y, z);
 				if (val < 0) {
 					val *= .01;
@@ -25,8 +25,8 @@ void Relu::feedForward() {
 
 void Relu::feedBackward() {
 	for (int z = 0; z < inputVolume->depth; z++) {
-		for (int y = 0; y < inputVolume->width; y++) {
-			for (int x = 0; x < inputVolume->height; x++) {
+		for (int y = 0; y < inputVolume->height; y++) {
+			for (int x = 0; x < inputVolume->width; x++) {
 				float inputVal = inputVolume->get(x, y, z);
 				float backpropVal;
 				if (inputVal < 0) {

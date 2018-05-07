@@ -4,14 +4,13 @@ Filter::Filter(int filterWidth, int filterHeight, int stride, Layer *priorLayer)
 	filterWidth(filterWidth),
 	filterHeight(filterHeight),
 	stride(stride),
-	inputVolume(inputVolume),
 	Layer(priorLayer) {
-	int outputWidth = ceil((float)(inputVolume->width - filterWidth + 1) / (float)stride);
-	int outputHeight = ceil((float)(inputVolume->height - filterHeight + 1) / (float)stride);
+	int outputWidth = ceil((float)(priorLayer->outputVolume->width - filterWidth + 1) / (float)stride);
+	int outputHeight = ceil((float)(priorLayer->outputVolume->height - filterHeight + 1) / (float)stride);
 	outputVolume = new Volume(outputWidth, outputHeight, 1);
 	errVsOutput = new Volume(outputWidth, outputHeight, 1);
 	weights = new Volume(filterWidth, filterHeight, inputVolume->depth);
-	weights->initRandom();
+	// weights->initRandom();
 }
 
 Filter::~Filter() {

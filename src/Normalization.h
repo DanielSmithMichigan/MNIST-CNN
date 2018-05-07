@@ -20,7 +20,7 @@ class Normalization : public Layer {
 		float getVariance(list<float> &entry, float mean);
 	protected:
 	public:
-		Normalization(int windowSize, Layer *priorLayer);
+		Normalization(Layer *priorLayer, int windowSize);
 		~Normalization();
 		Volume *gamma;
 		Volume *beta;

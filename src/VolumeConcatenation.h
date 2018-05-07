@@ -1,7 +1,5 @@
 #pragma once
-#include "Volume.h"
-#include <vector>
-#include <cmath>
+#include "Layer.h"
 
 using namespace std;
 
@@ -10,7 +8,7 @@ class VolumeConcatenation : public Layer {
 		int outputWidth;
 		int outputHeight;
 		int outputDepth;
-		vector <Volume *> priorLayers;
+		vector <Layer *> priorLayers;
 	protected:
 	public:
 		VolumeConcatenation(vector<Layer*> priorLayers);

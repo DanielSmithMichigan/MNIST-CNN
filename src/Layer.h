@@ -15,6 +15,6 @@ class Layer{
         Volume *errVsOutput;
         Volume *outputVolume;
         Volume *inputVolume;
-        void feedForward();
-        void feedBackward();
+        virtual void feedForward();
+        virtual void feedBackward();
 };

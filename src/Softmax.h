@@ -1,14 +1,15 @@
 #pragma once
 #include "Layer.h"
+#include <cmath>
 
 using namespace std;
 
-class Relu : public Layer {
+class Softmax : public Layer{
 	private:
 	protected:
 	public:
-		Relu(Layer *priorLayer);
-		~Relu();
+		Softmax(Layer *priorLayer);
+		~Softmax();
 		void feedForward();
 		void feedBackward();
 };

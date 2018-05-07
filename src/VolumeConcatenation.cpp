@@ -36,7 +36,7 @@ void VolumeConcatenation::feedBackward() {
 		for (int z = 0; z < priorLayers[i]->inputVolume->depth; z++) {
 			for (int x = 0; x < outputWidth; x++) {
 				for (int y = 0; y < outputHeight; y++) {
-					priorLayers->errVsOutput[i]->set(x, y, z, errVsOutput->get(x, y, currentDepth));
+					priorLayers[i]->errVsOutput->set(x, y, z, errVsOutput->get(x, y, currentDepth));
 				}
 			}
 			currentDepth++;

@@ -10,3 +10,6 @@ Layer::Layer () {}
 Layer::~Layer() {
 
 }
+
+void Layer::feedForward() {}
+void Layer::feedBackward() {}

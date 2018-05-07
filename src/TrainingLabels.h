@@ -12,5 +12,6 @@ class TrainingLabels {
 		~TrainingLabels();
 		static TrainingLabels *instance;
 		void initialize();
+		void reset();
 		uint8_t getLabel();
 };
